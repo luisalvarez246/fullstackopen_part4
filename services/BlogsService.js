@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 const	Blog = require('../models/Blog');
 
-const	getAllBlogs = async (request, response) => 
+const	getAllBlogs = async (request, response, next) => 
 {
 	try
 	{
@@ -11,11 +11,11 @@ const	getAllBlogs = async (request, response) =>
 	}
 	catch(error)
 	{
-		console.log(error);
+		next(error);
 	}
 }
 
-const	saveBlog = async (request, response) => 
+const	saveBlog = async (request, response, next) => 
 {
 	const	body = request.body;
 	const	blog = new Blog(
@@ -34,7 +34,7 @@ const	saveBlog = async (request, response) =>
 	}
 	catch(error)
 	{
-		console.log(error);
+		next(error);
 	}
 }
 
