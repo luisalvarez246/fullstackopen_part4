@@ -133,60 +133,99 @@ describe('tests for favoriteBlog function', () =>
 		expect(result[0].likes).toBe(12);
 		expect(result[1].likes).toBe(12);
 	})
+})
 
-	describe('tests for mostBlogs function', () =>
+describe('tests for mostBlogs function', () =>
+{
+	test('returns empty author array when called with empty array', () =>
 	{
-		test('returns empty author array when called with empty array', () =>
+		//arrange
+		const	blog = [];
+		let		result;
+		//act
+		result = listHelper.mostBlogs(blog);
+		//assert
+		expect(result).toEqual([]);
+	})
+	
+	test('returns authors array with 1 object when there is a top blogger', () =>
+	{
+		//arrange
+		let		result;
+		//act
+		result = listHelper.mostBlogs(blogs);
+		//assert
+		expect(result.length).toBe(1);
+		expect(result[0]).toHaveProperty('author');
+		expect(result[0]).toHaveProperty('blogs');
+	})
+	
+	test('returns authors array with 2 object when there is a tie', () =>
+	{
+		//arrange
+		const	blog =
 		{
-			//arrange
-			const	blog = [];
-			let		result;
-			//act
-			result = listHelper.mostBlogs(blog);
-			//assert
-			expect(result).toEqual([]);
-		})
+			_id: '5a422b3a1b54a676234d17f9',
+			title: 'Canonical string reduction',
+			author: 'Edsger W. Dijkstra',
+			url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+			likes: 12,
+			__v: 0
+		};
+		let		result;
+		let		newBlogsArray;
+		//act
+		newBlogsArray = blogs.concat(blog);
+		result = listHelper.mostBlogs(newBlogsArray);
+		//assert
+		expect(result.length).toBe(2);
+	})
+})
 
-		test('returns authors array with 1 object when there is a favorite', () =>
+describe('tests for mostLikes function', () =>
+{
+	test('returns empty likes array when called with empty array', () =>
+	{
+		//arrange
+		const	blog = [];
+		let		result;
+		//act
+		result = listHelper.mostLikes(blog);
+		//assert
+		expect(result).toEqual([]);
+	})
+	
+	test('returns likes array with 1 object when there is a top liked', () =>
+	{
+		//arrange
+		let		result;
+		//act
+		result = listHelper.mostLikes(blogs);
+		//assert
+		expect(result.length).toBe(1);
+		expect(result[0]).toHaveProperty('author');
+		expect(result[0]).toHaveProperty('likes');
+	})
+	
+	test('returns likes array with 2 object when there is a tie', () =>
+	{
+		//arrange
+		const	blog =
 		{
-			//arrange
-			let		result;
-			//act
-			result = listHelper.mostBlogs(blogs);
-			//assert
-			expect(result.length).toBe(1);
-		})
-		test('returns authors array with 1 object when there is a favorite', () =>
-		{
-			//arrange
-			let		result;
-			//act
-			result = listHelper.mostBlogs(blogs);
-			//assert
-			expect(result.length).toBe(1);
-			expect(result[0]).toHaveProperty('author');
-			expect(result[0]).toHaveProperty('blogs');
-		})
-
-		test('returns authors array with 2 object when there is a tie', () =>
-		{
-			//arrange
-			const	blog =
-			{
-				_id: '5a422b3a1b54a676234d17f9',
-				title: 'Canonical string reduction',
-				author: 'Edsger W. Dijkstra',
-				url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-				likes: 12,
-				__v: 0
-			};
-			let		result;
-			let		newBlogsArray;
-			//act
-			newBlogsArray = blogs.concat(blog);
-			result = listHelper.mostBlogs(newBlogsArray);
-			//assert
-			expect(result.length).toBe(2);
-		})
+			_id: '5a422b3a1b54a676234d17f9',
+			title: 'Canonical string reduction',
+			author: 'Robert C. Martin',
+			url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+			likes: 5,
+			__v: 0
+		};
+		let		result;
+		let		newBlogsArray;
+		//act
+		newBlogsArray = blogs.concat(blog);
+		result = listHelper.mostLikes(newBlogsArray);
+		//assert
+		console.log(result);
+		expect(result.length).toBe(2);
 	})
 })

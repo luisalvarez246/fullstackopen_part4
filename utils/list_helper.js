@@ -45,4 +45,28 @@ const	mostBlogs = (blogs) =>
 	return (topAuthors);
 }
 
-module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs };
+const	mostLikes = (blogs) =>
+{
+	const	dictionary = {};
+	let		authors;
+	let		maxLikes;
+	let		topLiked;
+
+	for (let blog of blogs)
+	{
+		if (dictionary[blog.author])
+		{
+			dictionary[blog.author] += blog.likes;
+		}
+		else
+		{
+			dictionary[blog.author] = blog.likes;
+		}
+	}
+	authors = Object.entries(dictionary).map(([author, likes]) => ({author, likes}));
+	maxLikes = Math.max(...authors.map(x => x.likes));
+	topLiked = authors.filter(x => x.likes === maxLikes);
+	return (topLiked);
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes };
