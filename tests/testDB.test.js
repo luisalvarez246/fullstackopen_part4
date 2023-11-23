@@ -109,3 +109,23 @@ describe('POST requests testing', () =>
 	})
 })
 
+describe('DELETE requests testing', () =>
+{
+	test('DELETE request deletes specified blog', async () =>
+	{
+		//arrange
+		let	blogs;
+		let	toDelete;
+		let	response;
+		let	blogsAtEnd;
+		//act
+		blogs = await helper.blogsInDb();
+		toDelete = blogs[0];
+		response = await api.delete(`${url}/${toDelete.id}`);
+		blogsAtEnd = await helper.blogsInDb();
+		//assert
+		expect(response.status).toBe(204);
+		expect(blogsAtEnd).not.toContainEqual(toDelete);
+		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+	})
+})
