@@ -16,4 +16,9 @@ blogsRouter.delete('/:id', async (request, response, next) =>
 	await blogService.deleteBlog(request, response, next);
 })
 
+blogsRouter.put('/:id', async (request, response, next) =>
+{
+	await blogService.updateBlogById(request, response, next);
+})
+
 module.exports = blogsRouter;

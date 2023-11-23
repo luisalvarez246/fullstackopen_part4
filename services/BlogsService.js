@@ -53,4 +53,23 @@ const	deleteBlog = async (request, response, next) =>
 	}
 }
 
-module.exports = { getAllBlogs, saveBlog, deleteBlog };
+const	updateBlogById = async (request, response, next) =>
+{
+	const	id = request.params.id;
+	const	blog =
+	{
+		likes: request.body.likes
+	}
+
+	try
+	{
+		const	updatedBlog = await Blog.findByIdAndUpdate(id, {likes: blog.likes}, {runValidators: true, context: 'query'});
+		response.json(updtedBlog);
+	}
+	catch(error)
+	{
+		next(error);
+	}
+}
+
+module.exports = { getAllBlogs, saveBlog, deleteBlog, updateBlogById };
