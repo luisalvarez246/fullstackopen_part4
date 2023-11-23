@@ -62,6 +62,15 @@ const	blogObject =
 	__v: 0
 }
 
+const	likesMissing = 
+{
+	_id: '5a422bc61b54a676234d17fz',
+	title: 'Ahsoka',
+	author: 'Dave Filoni',
+	url: 'ahsoka.com',
+	__v: 0
+}
+
 const	blogsInDb = async () =>
 {
 	const	blogsDb = await Blog.find({});
@@ -69,4 +78,4 @@ const	blogsInDb = async () =>
 	return (blogsDb.map(blog => blog.toJSON()));
 }
 
-module.exports = { initialBlogs, blogsInDb, blogObject };
+module.exports = { initialBlogs, blogsInDb, blogObject, likesMissing };
