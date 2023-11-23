@@ -90,5 +90,22 @@ describe('POST requests testing', () =>
 		expect(blog.likes).toBeUndefined();
 		expect(response[response.length - 1].likes).toBe(0);
 	})
+
+	test('if title or url are missing, the backend throws an error', async () =>
+	{
+		//arrange
+		let	response;
+		let	blog;
+		//act
+		blog = helper.titleMissing;
+		response = await api.post(url).send(blog);
+		//assert
+		expect(response.status).toBe(400);
+		//act2
+		blog = helper.urlMissing;
+		response = await api.post(url).send(blog);
+		//assert2
+		expect(response.status).toBe(400);
+	})
 })
 
