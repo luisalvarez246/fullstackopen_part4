@@ -129,3 +129,42 @@ describe('DELETE requests testing', () =>
 		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
 	})
 })
+describe('DELETE requests testing', () =>
+{
+	test('DELETE request deletes specified blog', async () =>
+	{
+		//arrange
+		let	blogs;
+		let	toDelete;
+		let	response;
+		let	blogsAtEnd;
+		//act
+		blogs = await helper.blogsInDb();
+		toDelete = blogs[0];
+		response = await api.delete(`${url}/${toDelete.id}`);
+		blogsAtEnd = await helper.blogsInDb();
+		//assert
+		expect(response.status).toBe(204);
+		expect(blogsAtEnd).not.toContainEqual(toDelete);
+		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+	})
+})
+
+describe('PUT requests testing', () =>
+{
+	test('PUT request updates likes from specified blog', async () =>
+	{
+		//arrange
+		let	blogs;
+		let	toUpdate;
+		let	blogsAtEnd;
+		//act
+		blogs = await helper.blogsInDb();
+		toUpdate = blogs[0];
+		await api.put(`${url}/${toUpdate.id}`).send({likes: 300});
+		blogsAtEnd = await helper.blogsInDb();
+		//assert
+		expect(blogsAtEnd[0].likes).toBe(300);
+		console.log(blogsAtEnd);
+	})
+})
