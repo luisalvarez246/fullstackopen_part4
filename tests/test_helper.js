@@ -62,6 +62,24 @@ const	blogObject =
 	__v: 0
 }
 
+const	titleMissing = 
+{
+	_id: '5a422bc61b54a676234d17fz',
+	author: 'Dave Filoni',
+	url: 'ahsoka.com',
+	likes: 58,
+	__v: 0
+}
+
+const	urlMissing = 
+{
+	_id: '5a422bc61b54a676234d17fz',
+	title: 'Ahsoka',
+	author: 'Dave Filoni',
+	likes: 58,
+	__v: 0
+}
+
 const	likesMissing = 
 {
 	_id: '5a422bc61b54a676234d17fz',
@@ -78,4 +96,4 @@ const	blogsInDb = async () =>
 	return (blogsDb.map(blog => blog.toJSON()));
 }
 
-module.exports = { initialBlogs, blogsInDb, blogObject, likesMissing };
+module.exports = { initialBlogs, blogsInDb, blogObject, likesMissing, titleMissing, urlMissing };
