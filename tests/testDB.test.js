@@ -76,5 +76,19 @@ describe('POST requests testing', () =>
 		expect(response.status).toBe(200);
 		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 	})
+
+	test('likes default to 0 if likes is missing from the request', async () =>
+	{
+		//arrange
+		let	response;
+		let	blog;
+		//act
+		blog = helper.likesMissing;
+		await api.post(url).send(blog);
+		response = await helper.blogsInDb();
+		//assert
+		expect(blog.likes).toBeUndefined();
+		expect(response[response.length - 1].likes).toBe(0);
+	})
 })
 
