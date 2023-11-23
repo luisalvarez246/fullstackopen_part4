@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/6557e7ef68e8518e456b9836
+Content-Type: application/json
+
+{
+	"title": "El cuervo",
+	"author": "Edgar Allan Poe",
+	"url": "theraven.com",
+	"likes": 250000
+}
