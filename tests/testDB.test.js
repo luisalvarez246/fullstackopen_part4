@@ -45,5 +45,17 @@ describe('GET request testing', () =>
 		//assert
 		expect(blogs).toHaveLength(helper.initialBlogs.length);
 	})
+
+	test('response.body has a property named id', async () =>
+	{
+		//arrange
+		let	response;
+		let blogs;
+		//act
+		response = await api.get('/api/blogs');
+		blogs = response.body[0];
+		//assert
+		expect(blogs.id).toBeDefined();
+	})
 })
 
