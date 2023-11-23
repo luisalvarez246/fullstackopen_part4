@@ -38,4 +38,19 @@ const	saveBlog = async (request, response, next) =>
 	}
 }
 
-module.exports = { getAllBlogs, saveBlog };
+const	deleteBlog = async (request, response, next) =>
+{
+	const	id = request.params.id;
+
+	try
+	{
+		await Blog.findByIdAndDelete(id);
+		response.status(204).end()
+	}
+	catch(error)
+	{
+		next(error);
+	}
+}
+
+module.exports = { getAllBlogs, saveBlog, deleteBlog };
