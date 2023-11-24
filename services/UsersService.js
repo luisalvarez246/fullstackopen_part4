@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 const	User = require('../models/User');
 const	bcrypt = require('bcrypt');
+const	parseRequest = require('../utils/userParser').parseRequest;
 
 const	getAllUsers = async (request, response, next) =>
 {
@@ -19,10 +20,18 @@ const	getAllUsers = async (request, response, next) =>
 const	saveUser = async (request, response, next) =>
 {
 	const	{ username, password, name } = request.body;
-	const	saltRounds = 10;
+	const	error = parseRequest(password);
+	let		saltRounds;
+	let		passwordHash;
+	let		user;
 
-	const	passwordHash = await bcrypt.hash(password, saltRounds);
-	const	user = new User(
+	if (error)
+	{
+		return (response.status(400).json({error: error}));
+	}
+	saltRounds = 10;
+	passwordHash = await bcrypt.hash(password, saltRounds);
+	user = new User(
 	{
 		username,
 		passwordHash,
