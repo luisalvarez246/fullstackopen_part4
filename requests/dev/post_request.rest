@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-	"title": "The Raven",
-	"author": "Edgar Allan Poe",
-	"url": "theraven.com",
-	"likes": 20
+	"title": "How to ask for chicken deluxe edition",
+	"author": "Bumby P. Alvarez",
+	"url": "bumby101.com",
+	"likes": 2000000
 }
