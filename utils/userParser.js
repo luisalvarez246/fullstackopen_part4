@@ -4,11 +4,11 @@ const	parseRequest = (password) =>
 
 	if (!password)
 	{
-		error = 'password must be given';
+		error = 'Error: password must be given';
 	}
 	else if (password.length < 3)
 	{
-		error = 'password must be at least 3 characters long';
+		error = 'Error: password must be at least 3 characters long';
 	}
 	else
 	{
