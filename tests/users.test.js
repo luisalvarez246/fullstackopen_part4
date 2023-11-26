@@ -21,7 +21,7 @@ afterAll(() =>
 	dbConnect.closeDB();
 })
 
-describe('test POST requests for Users', () =>
+describe('test fields validation, POST requests for Users', () =>
 {
 	test('missing username does not save user and returns error msg', async () =>
 	{
@@ -66,5 +66,35 @@ describe('test POST requests for Users', () =>
 		expect(usersInDb).toHaveLength(helper.initialUsers.length);
 		expect(result.body.error).toBeDefined();
 		expect(result.body.error).toMatch(/expected `username` to be unique/);
+	})
+
+	test('missing password does not save user and returns error msg', async () =>
+	{
+		//arrange
+		let	result;
+		let	user = helper.missingPassword;
+		let	usersInDb;
+		//act
+		result = await api.post(url).send(user);
+		usersInDb = await helper.usersInDb();
+		//assert
+		expect(usersInDb).toHaveLength(helper.initialUsers.length);
+		expect(result.body.error).toBeDefined();
+		expect(result.body.error).toBe('Error: password must be given');
+	})
+
+	test('password less than 3 characters long does not save user and returns error msg', async () =>
+	{
+		//arrange
+		let	result;
+		let	user = helper.invalidPassword;
+		let	usersInDb;
+		//act
+		result = await api.post(url).send(user);
+		usersInDb = await helper.usersInDb();
+		//assert
+		expect(usersInDb).toHaveLength(helper.initialUsers.length);
+		expect(result.body.error).toBeDefined();
+		expect(result.body.error).toBe('Error: password must be at least 3 characters long');
 	})
 })
