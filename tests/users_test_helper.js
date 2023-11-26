@@ -27,11 +27,28 @@ const	invalidUsername =
 	__v: 0
 }
 
+const	invalidPassword =
+{
+	_id: '5a422a851b54a676234d17z7',
+	username: 'Simon',
+	password: 'bo',
+	name: 'Ice King',
+	__v: 0
+}
+
 const	missingUsername =
 {
 	_id: '5a422a851b54a676234d17z7',
 	password: 'jake',
 	name: 'Finn',
+	__v: 0
+}
+
+const	missingPassword =
+{
+	_id: '5a422a851b54a676234d17z7',
+	username: 'Simon',
+	name: 'Ice King',
 	__v: 0
 }
 
@@ -52,4 +69,13 @@ const	usersInDb = async () =>
 }
 
 
-module.exports = { initialUsers, invalidUsername, missingUsername, repeatedUsername, usersInDb };
+module.exports = 
+{ 
+	initialUsers, 
+	invalidUsername, 
+	missingUsername, 
+	repeatedUsername, 
+	missingPassword,
+	invalidPassword,
+	usersInDb 
+};
