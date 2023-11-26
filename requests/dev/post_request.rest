@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imtvcm9zZW5zZWkiLCJpZCI6IjY1NjM1OTRkZTg2M2Q2NzZkZjEyZWI5ZiIsImlhdCI6MTcwMTAwOTc4OX0.y1lR_0XGgqKHJgDNx9qW-oniUdPk2Y5gXdoo-OXejqw
 
 {
-	"title": "How to ask for chicken deluxe edition",
-	"author": "Bumby P. Alvarez",
-	"url": "bumby101.com",
-	"likes": 2000000
+	"title": "How to train kid assasins",
+	"author": "Mr. Octo P.",
+	"url": "classE.com",
+	"likes": 1000
 }
