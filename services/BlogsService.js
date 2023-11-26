@@ -6,7 +6,7 @@ const	getAllBlogs = async (request, response, next) =>
 {
 	try
 	{
-		const	result = await Blog.find({}).populate('user');
+		const	result = await Blog.find({}).populate('user', {blogs: 0});
 
 		response.json(result);
 	}
@@ -32,6 +32,8 @@ const	saveBlog = async (request, response, next) =>
 	try
 	{
 		const	savedBlog = await blog.save();
+		user[0].blogs = user[0].blogs.concat(savedBlog._id);
+		await user[0].save();
 
 		response.status(201).json(savedBlog);
 	}
