@@ -1,5 +1,6 @@
 /* eslint-disable indent */
 const	Blog = require('../models/Blog');
+const	User = require('../models/User');
 
 const	getAllBlogs = async (request, response, next) => 
 {
@@ -18,19 +19,21 @@ const	getAllBlogs = async (request, response, next) =>
 const	saveBlog = async (request, response, next) => 
 {
 	const	body = request.body;
+	const	user = await User.find({});
 	const	blog = new Blog(
 	{
 		title: body.title,
 		author: body.author,
 		url: body.url,
-		likes: body.likes
+		likes: body.likes,
+		user: user[0].id
 	})
 
 	try
 	{
 		const	savedBlog = await blog.save();
 
-		response.json(savedBlog);
+		response.status(201).json(savedBlog);
 	}
 	catch(error)
 	{
@@ -64,7 +67,7 @@ const	updateBlogById = async (request, response, next) =>
 	try
 	{
 		const	updatedBlog = await Blog.findByIdAndUpdate(id, {likes: blog.likes}, {runValidators: true, context: 'query'});
-		response.json(updtedBlog);
+		response.json(updatedBlog);
 	}
 	catch(error)
 	{
