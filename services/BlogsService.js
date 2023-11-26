@@ -1,6 +1,9 @@
+/* eslint-disable no-undef */
 /* eslint-disable indent */
 const	Blog = require('../models/Blog');
 const	User = require('../models/User');
+const	jwt = require('jsonwebtoken');
+const	tokenHelper = require('../utils/token_helper');
 
 const	getAllBlogs = async (request, response, next) => 
 {
@@ -19,21 +22,29 @@ const	getAllBlogs = async (request, response, next) =>
 const	saveBlog = async (request, response, next) => 
 {
 	const	body = request.body;
-	const	user = await User.find({});
-	const	blog = new Blog(
+	const	decodedToken = jwt.verify(tokenHelper.getToken(request), process.env.SECRET)
+	let		user;
+	let		blog;
+
+	if (!decodedToken.id)
+	{
+		return (response.status(401).json({ error: 'invalid token' }))
+	}
+	user = await User.findById(decodedToken.id);
+	blog = new Blog(
 	{
 		title: body.title,
 		author: body.author,
 		url: body.url,
 		likes: body.likes,
-		user: user[0].id
+		user: user.id
 	})
 
 	try
 	{
 		const	savedBlog = await blog.save();
-		user[0].blogs = user[0].blogs.concat(savedBlog._id);
-		await user[0].save();
+		user.blogs = user.blogs.concat(savedBlog._id);
+		await user.save();
 
 		response.status(201).json(savedBlog);
 	}
