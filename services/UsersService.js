@@ -7,7 +7,7 @@ const	getAllUsers = async (request, response, next) =>
 {
 	try
 	{
-		const	result = await User.find({});
+		const	result = await User.find({}).populate('blogs', {user: 0});
 
 		response.json(result);
 	}
