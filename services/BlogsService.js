@@ -6,7 +6,7 @@ const	getAllBlogs = async (request, response, next) =>
 {
 	try
 	{
-		const	result = await Blog.find({});
+		const	result = await Blog.find({}).populate('user');
 
 		response.json(result);
 	}
