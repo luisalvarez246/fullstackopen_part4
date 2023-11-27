@@ -27,7 +27,7 @@ const	saveBlog = async (request, response, next) =>
 
 	if (!decodedToken.id)
 	{
-		return (response.status(401).json({ error: 'invalid token' }))
+		return (response.status(401).json({ error: 'invalid token' }));
 	}
 	user = await User.findById(decodedToken.id);
 	blog = new Blog(
@@ -55,12 +55,22 @@ const	saveBlog = async (request, response, next) =>
 
 const	deleteBlog = async (request, response, next) =>
 {
-	const	id = request.params.id;
+	const	blogId = request.params.id;
+	let		blog;
 
 	try
 	{
-		await Blog.findByIdAndDelete(id);
-		response.status(204).end()
+		const	decodedToken = jwt.verify(request.token, process.env.SECRET);
+		blog = await Blog.findById(blogId);
+		if ((decodedToken.id) && (blog.user.toString() === decodedToken.id))
+		{
+			await Blog.findByIdAndDelete(blogId);
+			response.status(204).end()
+		}
+		else
+		{
+			return (response.status(401).json({ error: 'a blog can only be deleted by his/her owner'}));
+		}
 	}
 	catch(error)
 	{
