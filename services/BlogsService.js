@@ -3,7 +3,6 @@
 const	Blog = require('../models/Blog');
 const	User = require('../models/User');
 const	jwt = require('jsonwebtoken');
-const	tokenHelper = require('../utils/token_helper');
 
 const	getAllBlogs = async (request, response, next) => 
 {
@@ -22,7 +21,7 @@ const	getAllBlogs = async (request, response, next) =>
 const	saveBlog = async (request, response, next) => 
 {
 	const	body = request.body;
-	const	decodedToken = jwt.verify(tokenHelper.getToken(request), process.env.SECRET)
+	const	decodedToken = jwt.verify(request.token, process.env.SECRET)
 	let		user;
 	let		blog;
 
