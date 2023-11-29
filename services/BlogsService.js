@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable indent */
 const	Blog = require('../models/Blog');
-const	jwt = require('jsonwebtoken');
 
 const	getAllBlogs = async (request, response, next) => 
 {
@@ -20,11 +19,13 @@ const	getAllBlogs = async (request, response, next) =>
 const	saveBlog = async (request, response, next) => 
 {
 	const	body = request.body;
-	let		user;
+	const	user = request.user;
 	let		blog;
 
-	user = request.user;
-	console.log(user);
+	if (!user)
+	{
+		return (response.status(401).json({ error: 'invalid token'}));
+	}
 	blog = new Blog(
 	{
 		title: body.title,
@@ -54,7 +55,10 @@ const	deleteBlog = async (request, response, next) =>
 	const	user = request.user;
 	let		blog;
 
-
+	if (!user)
+	{
+		return (response.status(401).json({ error: 'invalid token'}));
+	}
 	try
 	{
 		blog = await Blog.findById(blogId);
