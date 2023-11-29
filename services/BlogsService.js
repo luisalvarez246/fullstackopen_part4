@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable indent */
 const	Blog = require('../models/Blog');
-const	User = require('../models/User');
 const	jwt = require('jsonwebtoken');
 
 const	getAllBlogs = async (request, response, next) => 
@@ -21,15 +20,11 @@ const	getAllBlogs = async (request, response, next) =>
 const	saveBlog = async (request, response, next) => 
 {
 	const	body = request.body;
-	const	decodedToken = jwt.verify(request.token, process.env.SECRET)
 	let		user;
 	let		blog;
 
-	if (!decodedToken.id)
-	{
-		return (response.status(401).json({ error: 'invalid token' }));
-	}
-	user = await User.findById(decodedToken.id);
+	user = request.user;
+	console.log(user);
 	blog = new Blog(
 	{
 		title: body.title,
@@ -56,13 +51,14 @@ const	saveBlog = async (request, response, next) =>
 const	deleteBlog = async (request, response, next) =>
 {
 	const	blogId = request.params.id;
+	const	user = request.user;
 	let		blog;
+
 
 	try
 	{
-		const	decodedToken = jwt.verify(request.token, process.env.SECRET);
 		blog = await Blog.findById(blogId);
-		if ((decodedToken.id) && (blog.user.toString() === decodedToken.id))
+		if ((user.id) && (blog.user.toString() === user.id))
 		{
 			await Blog.findByIdAndDelete(blogId);
 			response.status(204).end()

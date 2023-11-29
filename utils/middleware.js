@@ -1,4 +1,7 @@
+/* eslint-disable no-undef */
 const	logger = require('./logger');
+const	User = require('../models/User');
+const	jwt = require('jsonwebtoken');
 
 const	requestLogger = (request, response, next) =>
 {
@@ -46,4 +49,27 @@ const tokenExtractor = (request, response, next) =>
 	next();
 }
 
-module.exports = { unknownEndPoint, errorHandler, requestLogger, tokenExtractor };
+const	userExtractor = async (request, response, next) =>
+{
+	if (!request.token)
+	{
+		return (next());
+	}
+	try
+	{
+		const	decodedToken = jwt.verify(request.token, process.env.SECRET);
+
+		if (!decodedToken.id)
+		{
+			return (response.status(401).json({ error: 'invalid token' }));
+		}
+		request.user = await User.findById(decodedToken.id);
+	}
+	catch(error)
+	{
+		next(error);
+	}
+	next();
+}
+
+module.exports = { unknownEndPoint, errorHandler, requestLogger, tokenExtractor, userExtractor };
