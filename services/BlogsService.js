@@ -34,7 +34,6 @@ const	saveBlog = async (request, response, next) =>
 		likes: body.likes,
 		user: user.id
 	})
-
 	try
 	{
 		const	savedBlog = await blog.save();
@@ -83,12 +82,13 @@ const	updateBlogById = async (request, response, next) =>
 	const	id = request.params.id;
 	const	blog =
 	{
-		likes: request.body.likes
+		likes: request.body.likes,
+		user: request.body.user,
 	}
 
 	try
 	{
-		const	updatedBlog = await Blog.findByIdAndUpdate(id, {likes: blog.likes}, {runValidators: true, context: 'query'});
+		const	updatedBlog = await Blog.findByIdAndUpdate(id, {likes: blog.likes, user: blog.user}, {runValidators: true, context: 'query'});
 		response.json(updatedBlog);
 	}
 	catch(error)
