@@ -8,7 +8,7 @@ const	getAllBlogs = async (request, response, next) =>
 	{
 		const	result = await Blog.find({}).populate('user', {blogs: 0});
 
-		response.json(result);
+		response.json(result.sort((a, b) => b.likes - a.likes));
 	}
 	catch(error)
 	{
