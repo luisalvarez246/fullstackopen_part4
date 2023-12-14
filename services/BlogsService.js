@@ -83,12 +83,12 @@ const	updateBlogById = async (request, response, next) =>
 	const	blog =
 	{
 		likes: request.body.likes,
-		user: request.body.user,
+		userId: request.body.userId,
 	}
 
 	try
 	{
-		const	updatedBlog = await Blog.findByIdAndUpdate(id, {likes: blog.likes, user: blog.user}, {runValidators: true, context: 'query'});
+		const	updatedBlog = await Blog.findByIdAndUpdate(id, {likes: blog.likes, user: blog.userId}, {runValidators: true, context: 'query'});
 		response.json(updatedBlog);
 	}
 	catch(error)
